@@ -1,17 +1,20 @@
+from gplearn.genetic import SymbolicRegressor
 
 # Global variables
-inp = []
-out = []
+X_train = []
+y_train = []
 
 
 # Function to load the file
-def loadFile():
+def load():
+
     # Load from the file
     file = open(r"./data/regression.txt", "r")
 
     # Read the lines from the file
     lines = file.readlines()
 
+    global X_train, y_train
     for line in lines:
         # Skip the line we don't need
         if line[0] == "-":
@@ -23,12 +26,23 @@ def loadFile():
         if line[0] == "x":
             continue
 
-        inp.append(line[0])
-        out.append(line[1])
+        X_train.append([float(line[0])])
+        y_train.append(float(line[1]))
 
-    for x in range(0, len(inp)):
-        print(inp[x])
-        print(out[x])
+    # print(X_train)
+    # print(y_train)
 
 
-loadFile()
+def train():
+    est_gp = SymbolicRegressor(population_size=5000,
+                               generations=20, stopping_criteria=0.001,
+                               p_crossover=0.8, p_subtree_mutation=0.1,
+                               p_hoist_mutation=0.05, p_point_mutation=0.05,
+                               max_samples=0.9, verbose=1, metric='mean absolute error',
+                               parsimony_coefficient=0.01, random_state=0)
+    est_gp.fit(X_train, y_train)
+    print(est_gp._program)
+
+
+load()
+train()
