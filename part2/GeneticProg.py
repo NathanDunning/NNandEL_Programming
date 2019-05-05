@@ -42,6 +42,8 @@ def train():
                                parsimony_coefficient=0.01, random_state=0)
     est_gp.fit(X_train, y_train)
     print(est_gp._program)
+    print(est_gp.get_params())
+    print(est_gp.predict(X_train))
 
 
 load()
