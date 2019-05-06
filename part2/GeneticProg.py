@@ -34,16 +34,15 @@ def load():
 
 
 def train():
-    est_gp = SymbolicRegressor(population_size=5000,
+    est_gp = SymbolicRegressor(population_size=150,
                                generations=20, stopping_criteria=0.001,
                                p_crossover=0.8, p_subtree_mutation=0.1,
                                p_hoist_mutation=0.05, p_point_mutation=0.05,
                                max_samples=0.9, verbose=1, metric='mean absolute error',
-                               parsimony_coefficient=0.01, random_state=0)
+                               parsimony_coefficient=0.01)
     est_gp.fit(X_train, y_train)
     print(est_gp._program)
-    print(est_gp.get_params())
-    print(est_gp.predict(X_train))
+    print(est_gp.score(X_train, y_train))
 
 
 load()
